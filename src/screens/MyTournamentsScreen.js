@@ -25,6 +25,7 @@ export default function MyTournamentsScreen() {
   const router = useRouter();
 
   useEffect(() => {
+    if (!user || !token) return;
     const fetchData = async () => {
       const all = await tournamentsApi.getAll(token);
       const mine = all.filter((t) => t.creator_id === user.id);
@@ -34,13 +35,14 @@ export default function MyTournamentsScreen() {
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [user, token]);
 
   const handleLogout = async () => {
     await logout();
-    router.replace("/");
+    setTimeout(() => {
+      router.replace("/");
+    }, 300);
   };
-
   if (loading) {
     return (
       <LinearGradient
