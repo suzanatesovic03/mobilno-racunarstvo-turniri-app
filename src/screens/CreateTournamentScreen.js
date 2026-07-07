@@ -76,7 +76,7 @@ export default function CreateTournamentScreen() {
       Alert.alert("Uspeh", "Turnir je kreiran!");
       router.replace("/tournaments");
     } catch (e) {
-      Alert.alert("Greška", "Nešto je pošlo naopako");
+      Alert.alert("Greška", "Nemoguce kreiranje turnira");
     }
     setLoading(false);
   };

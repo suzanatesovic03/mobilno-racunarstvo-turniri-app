@@ -47,7 +47,6 @@ export const AuthProvider = ({ children }) => {
     const data = await authApi.register(email, password);
     console.log("Register data:", JSON.stringify(data));
     if (data.access_token) {
-      // Upiši profil
       await fetch(`${process.env.EXPO_PUBLIC_SUPABASE_URL}/rest/v1/profiles`, {
         method: "POST",
         headers: {

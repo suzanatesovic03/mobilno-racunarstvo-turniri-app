@@ -193,7 +193,7 @@ export default function TournamentDetailScreen() {
         {isOrganizer && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>
-              Prijave u hodu ({applications.length})
+              Broj prijava: ({applications.length})
             </Text>
             {applications.length === 0 && (
               <BlurView intensity={20} tint="light" style={styles.emptyCard}>
