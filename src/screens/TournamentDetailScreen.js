@@ -24,13 +24,20 @@ export default function TournamentDetailScreen() {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [applying, setApplying] = useState(false);
+  const [isCoOrganizer, setIsCoOrganizer] = useState(false);
 
   const fetchData = useCallback(async () => {
     if (!id || !token) return;
     setLoading(true);
     const t = await tournamentsApi.getById(token, id);
     setTournament(t);
-    if (t?.creator_id === user?.id) {
+
+    const { organizersApi } = await import("../api/organizers");
+    const coOrgs = await organizersApi.getByTournament(token, id);
+    const coOrgIds = coOrgs.map((c) => c.user_id);
+    setIsCoOrganizer(coOrgIds.includes(user?.id));
+
+    if (t?.creator_id === user?.id || coOrgIds.includes(user?.id)) {
       const apps = await applicationsApi.getByTournament(token, id);
       setApplications(apps);
     }
@@ -93,8 +100,7 @@ export default function TournamentDetailScreen() {
     );
   }
 
-  const isOrganizer = tournament.creator_id === user?.id;
-
+  const isOrganizer = tournament.creator_id === user?.id || isCoOrganizer;
   return (
     <LinearGradient
       colors={["#E8C3B9", "#DDA193", "#C58B80"]}

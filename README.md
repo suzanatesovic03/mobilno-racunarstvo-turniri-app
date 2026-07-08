@@ -1,50 +1,82 @@
-# Welcome to your Expo app 👋
+## O aplikaciji
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+TurnirNet omogućava korisnicima da kreiraju turnire za razne igre (FIFA, Catan, kviz veče i sl.), postavljaju maksimalan broj učesnika i upravljaju prijavama. Drugi korisnici mogu da pregledaju dostupne turnire i prijavljuju se na njih.
 
-## Get started
+### Glavne funkcionalnosti
 
-1. Install dependencies
+- Registracija i prijava korisnika
+- Pregled liste svih dostupnih turnira
+- Kreiranje turnira sa mogućnošću dodavanja ko-organizatora
+- Prijava na turnir sa proverom kapaciteta i duplikata
+- Prihvatanje i odbijanje prijava (organizator)
+- Automatsko zatvaranje turnira kada se popune mesta
+- Pregled sopstvenih turnira i prijava
 
-   ```bash
-   npm install
-   ```
+## Tehnologije
 
-2. Start the app
+- **React Native** (Expo SDK 54) — mobilna aplikacija
+- **Expo Router** — navigacija između ekrana
+- **Supabase Auth** (REST API) — autentifikacija korisnika
+- **Supabase PostgreSQL** (PostgREST) — baza podataka i REST API
+- **AsyncStorage** — lokalno čuvanje tokena
 
-   ```bash
-   npx expo start
-   ```
+## Pokretanje projekta
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+1. Kloniraj repozitorijum
 
 ```bash
-npm run reset-project
+git clone https://github.com/suzanatesovic03/mobilno-racunarstvo-turniri-app.git
+cd mobilno-racunarstvo-turniri-app
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. Instaliraj zavisnosti
 
-## Learn more
+```bash
+npm install
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+3. Napravi `.env` fajl u root-u projekta
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```
+EXPO_PUBLIC_SUPABASE_URL=tvoj_supabase_url
+EXPO_PUBLIC_SUPABASE_ANON_KEY=tvoj_anon_key
+```
 
-## Join the community
+4. Pokreni aplikaciju
 
-Join our community of developers creating universal apps.
+```bash
+npx expo start
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+5. Skeniraj QR kod u Expo Go aplikaciji na telefonu
+
+## Struktura projekta
+
+```
+app/                    # Expo Router rute
+src/
+  api/                  # REST API pozivi ka Supabase-u
+    supabase.js         # Auth API (login, register, logout)
+    tournaments.js      # CRUD operacije nad turnirima
+    applications.js     # Upravljanje prijavama
+    organizers.js       # Ko-organizatori
+  screens/              # Ekrani aplikacije
+    LoginScreen.js
+    RegisterScreen.js
+    TournamentsScreen.js
+    CreateTournamentScreen.js
+    TournamentDetailScreen.js
+    MyTournamentsScreen.js
+    MyApplicationsScreen.js
+  context/
+    AuthContext.js      # Globalno stanje autentifikacije
+  components/
+    BottomNav.js        # Navigacija na dnu ekrana
+```
+
+## Baza podataka
+
+- `profiles` — podaci o korisnicima
+- `tournaments` — turniri
+- `applications` — prijave korisnika na turnire
+- `tournament_organizers` — N:M veza između turnira i ko-organizatora
